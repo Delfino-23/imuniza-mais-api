@@ -1,0 +1,25 @@
+info:
+  name: update paciente
+  type: http
+  seq: 3
+
+http:
+  method: PUT
+  url: http://localhost:4000/api/pacientes/60002
+  body:
+    type: json
+    data: |-
+      {
+        "nome": "Roberto",
+        "cpf": 15633514517,
+        "data_nascimento": "2002-06-10",
+        "telefone": 1723243618,
+        "email": "roberto@gmail.com"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

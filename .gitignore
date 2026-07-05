@@ -1,13 +1,2 @@
-# DEPENDÊNCIAS
-/node_modules
-
-# ARQUIVOS DE CONFIGURAÇÃO SENSÍVEL
+node_modules
 .env
-
-# ARQUIVOS DO BANCO DE DADOS
-*.db
-*.db-shm
-*.db-wal
-
-# FERRAMENTAS
-.vscode

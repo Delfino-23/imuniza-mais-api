@@ -1,15 +1,19 @@
 {
-  "name": "sistema-vacinacao",
+  "name": "imuniza-mais-api",
   "version": "1.0.0",
-  "type": "module",
-  "main": "index.js",
+  "description": "API REST do sistema de gestao vacinal Imuniza+",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "dependencies": {
-    "better-sqlite3": "^12.2.0",
     "cors": "^2.8.5",
-    "express": "^5.1.0",
-    "express-session": "^1.18.2"
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2",
+    "mysql2": "^3.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }
