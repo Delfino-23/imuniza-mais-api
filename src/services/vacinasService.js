@@ -11,22 +11,22 @@ const getById = async (id) => {
 };
 
 const create = async (data) => {
-  const { nome, fabricante, quantidade_estoque, validade } = data;
+  const { nome, fabricante, quantidade_estoque, validade, lote, minimo_alerta } = data;
 
   const [result] = await pool.query(
-    'INSERT INTO vacinas (nome, fabricante, quantidade_estoque, validade) VALUES (?, ?, ?, ?)',
-    [nome, fabricante || null, quantidade_estoque || 0, validade || null]
+    'INSERT INTO vacinas (nome, fabricante, quantidade_estoque, validade, lote, minimo_alerta) VALUES (?, ?, ?, ?, ?, ?)',
+    [nome, fabricante || null, quantidade_estoque || 0, validade || null, lote || null, minimo_alerta || 0]
   );
 
   return getById(result.insertId);
 };
 
 const update = async (id, data) => {
-  const { nome, fabricante, quantidade_estoque, validade } = data;
+  const { nome, fabricante, quantidade_estoque, validade, lote, minimo_alerta } = data;
 
   await pool.query(
-    'UPDATE vacinas SET nome = ?, fabricante = ?, quantidade_estoque = ?, validade = ? WHERE id = ?',
-    [nome, fabricante || null, quantidade_estoque || 0, validade || null, id]
+    'UPDATE vacinas SET nome = ?, fabricante = ?, quantidade_estoque = ?, validade = ?, lote = ?, minimo_alerta = ? WHERE id = ?',
+    [nome, fabricante || null, quantidade_estoque || 0, validade || null, lote || null, minimo_alerta || 0, id]
   );
 
   return getById(id);
