@@ -13,7 +13,7 @@ const app = express();
 app.use(cors({
     origin: [
         'http://localhost:5173', // Altere para a porta que seu front local usa (3000, 5173, etc.)
-        'https://seu-frontend-hospedado.vercel.app' // Coloque aqui a URL do seu front quando fizer o deploy dele
+        'https://imuniza-mais-web.vercel.app/' // Coloque aqui a URL do seu front quando fizer o deploy dele
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
