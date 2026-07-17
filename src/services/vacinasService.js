@@ -2,7 +2,10 @@ const { pool } = require('../config/database');
 
 const getAll = async () => {
   const [rows] = await pool.query('SELECT * FROM vacinas ORDER BY nome');
-  return rows;
+  return {
+    total: rows.length,
+    vacinas: rows,
+  };
 };
 
 const getById = async (id) => {

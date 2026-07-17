@@ -3,7 +3,7 @@ const vacinasService = require('../services/vacinasService');
 const getAll = async (req, res, next) => {
   try {
     const vacinas = await vacinasService.getAll();
-    res.json({ success: true, message: 'Vacinas listadas com sucesso', data: vacinas });
+    res.json({ success: true, message: 'Vacinas listadas com sucesso', data: vacinas, totalVacinas: vacinas.total });
   } catch (error) {
     next(error);
   }
