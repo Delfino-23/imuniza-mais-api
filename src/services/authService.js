@@ -30,6 +30,8 @@ const register = async (userData) => {
 
 const login = async (email, senha) => {
     const usuario = await authModel.findByEmail(email);
+    console.log("Usuário retornado do banco:", usuario)
+
     if (!usuario) {
         throw new Error('Credenciais inválidas');
     }
@@ -39,9 +41,12 @@ const login = async (email, senha) => {
         throw new Error('Credenciais inválidas');
     }
 
+    // Adicionado fallback para evitar crash caso process.env.JWT_SECRET seja undefined
+    const secretKey = process.env.JWT_SECRET || 'chave_secreta_fallback_imuniza';
+
     const token = jwt.sign(
         { id: usuario.id, email: usuario.email, papel: usuario.papel },
-        process.env.JWT_SECRET,
+        secretKey,
         { expiresIn: '1d' }
     );
 
