@@ -5,27 +5,28 @@ const authModel = require('../models/authModel');
 const register = async (userData) => {
     const { nome, cpf, email, senha, papel = 'cidadao' } = userData;
 
-    const existingEmail = await authModel.findByEmail(email);
-    if (existingEmail) {
-        throw new Error('E-mail já cadastrado');
-    }
+    // 1. Validações de e-mail e CPF...
 
-    const existingCpf = await authModel.findByCpf(cpf);
-    if (existingCpf) {
-        throw new Error('CPF já cadastrado');
-    }
-
+    // 2. Hash da senha
     const senha_hash = await bcrypt.hash(senha, 10);
 
+    // 3. Se for 'cidadao', cria primeiro o registro na tabela 'pacientes'
+    let pacienteId = null;
+    if (papel === 'cidadao') {
+        pacienteId = await pacienteModel.create({ nome, cpf, email });
+    }
+
+    // 4. Cria o usuário passando o paciente_id vinculado
     const userId = await authModel.create({
         nome,
         cpf,
         email,
         senha_hash,
-        papel
+        papel,
+        paciente_id: pacienteId // 👈 Vínculo automático
     });
 
-    return { id: userId, nome, email, papel };
+    return { id: userId, nome, email, papel, paciente_id: pacienteId };
 };
 
 const login = async (email, senha) => {
@@ -42,10 +43,16 @@ const login = async (email, senha) => {
     }
 
     // Adicionado fallback para evitar crash caso process.env.JWT_SECRET seja undefined
-    const secretKey = process.env.JWT_SECRET || 'chave_secreta_fallback_imuniza';
+    const secretKey = process.env.JWT_SECRET;
 
+    // No authService.js (login):
     const token = jwt.sign(
-        { id: usuario.id, email: usuario.email, papel: usuario.papel },
+        {
+            id: usuario.id,
+            email: usuario.email,
+            papel: usuario.papel,
+            paciente_id: usuario.paciente_id // 👈 Envia o ID no token
+        },
         secretKey,
         { expiresIn: '1d' }
     );

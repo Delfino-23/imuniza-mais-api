@@ -1,4 +1,5 @@
 const { pool } = require('../config/database');
+const agendamentoModel = require('../models/agendamentoModel');
 
 // Query base com JOINs: além dos IDs, retorna os nomes do paciente,
 // da vacina e do posto, prontos para exibir direto no frontend.
@@ -55,4 +56,13 @@ const remove = async (id) => {
   await pool.query('DELETE FROM agendamentos WHERE id = ?', [id]);
 };
 
-module.exports = { getAll, getById, create, update, remove };
+const listarPorPaciente = async (pacienteId) => {
+  if (!pacienteId) {
+    throw new Error("O ID do paciente é obrigatório para listar agendamentos.");
+  }
+
+  const agendamentos = await agendamentoModel.findByPacienteId(pacienteId);
+  return agendamentos;
+};
+
+module.exports = { getAll, getById, create, update, remove, listarPorPaciente };

@@ -62,4 +62,20 @@ const remove = async (req, res, next) => {
   }
 };
 
-module.exports = { getAll, getById, create, update, remove };
+const listarMeusAgendamentos = async (req, res, next) => {
+  try {
+    // req.usuario.id vem do token JWT decodificado no middleware
+    const pacienteId = req.usuario.id;
+
+    const agendamentos = await agendamentosService.listarPorPaciente(pacienteId);
+
+    return res.status(200).json({
+      success: true,
+      data: agendamentos
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getAll, getById, create, update, remove, listarMeusAgendamentos };
